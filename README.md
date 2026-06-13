@@ -120,13 +120,14 @@ The second challenge was working with HTTP requests for the first time in practi
 3. Register the repository in `Program.cs`
 4. Add a controller in `Controllers/`
 
-The CRUD logic is already there — no changes needed to the repository.
+The CRUD logic is already there — no changes needed to the repository. 
+Note that as the number of entities grows, introducing a `BaseController` would become worth considering to avoid controller duplication — see *What I Would Improve With More Time*.
 
 ---
 
 ## What I Would Improve With More Time
 
-- **Base controller** — `UsersController` and `ProductsController` are structurally similar. A `BaseController<TEntity, TDto, TCreateDto, TUpdateDto>` could reduce duplication, though it adds generic complexity that may not be worth it for only two entities.
+- **Base controller** — `UsersController` and `ProductsController` are structurally similar. With only two entities, keeping them separate felt like the right trade-off — abstracting them into a `BaseController<TEntity, TDto, TCreateDto, TUpdateDto>` would have added generic complexity without much practical benefit at this scale. If the number of entities grew, that abstraction would become worth it.
 - **Real persistence** — replace the in-memory list with an actual database. The `IRepository<T>` interface would stay the same — only the implementation would change, and the controllers would not need any modifications.
 - **Authentication** — protect write endpoints (POST, PUT, DELETE) so that only authorized users can modify data.
 
