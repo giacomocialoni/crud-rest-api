@@ -113,14 +113,6 @@ The second challenge was working with HTTP requests for the first time in practi
 
 ---
 
-## What I Would Improve With More Time
-
-- **Base controller** — `UsersController` and `ProductsController` are structurally similar. A `BaseController<TEntity, TDto, TCreateDto, TUpdateDto>` could reduce duplication, though it adds generic complexity that may not be worth it for only two entities.
-- **Real persistence** — replace the in-memory list with an actual database. The `IRepository<T>` interface would stay the same — only the implementation would change, and the controllers would not need any modifications.
-- **Authentication** — protect write endpoints (POST, PUT, DELETE) so that only authorized users can modify data.
-
----
-
 ## How to Add a New Entity
 
 1. Add the model in `Models/`
@@ -129,3 +121,17 @@ The second challenge was working with HTTP requests for the first time in practi
 4. Add a controller in `Controllers/`
 
 The CRUD logic is already there — no changes needed to the repository.
+
+---
+
+## What I Would Improve With More Time
+
+- **Base controller** — `UsersController` and `ProductsController` are structurally similar. A `BaseController<TEntity, TDto, TCreateDto, TUpdateDto>` could reduce duplication, though it adds generic complexity that may not be worth it for only two entities.
+- **Real persistence** — replace the in-memory list with an actual database. The `IRepository<T>` interface would stay the same — only the implementation would change, and the controllers would not need any modifications.
+- **Authentication** — protect write endpoints (POST, PUT, DELETE) so that only authorized users can modify data.
+
+---
+
+## Bonus
+
+- **Automated tests** — 9 tests covering all CRUD operations on the generic repository using xUnit. Each test follows the Arrange / Act / Assert pattern and runs with `dotnet test` from the `CrudRestApi.Tests/` folder.
