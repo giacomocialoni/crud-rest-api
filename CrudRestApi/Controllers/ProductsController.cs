@@ -11,11 +11,13 @@ public class ProductsController : ControllerBase
 {
     private readonly IRepository<Product> _repository;
 
+    // Repository is injected by .NET dependency injection
     public ProductsController(IRepository<Product> repository)
     {
         _repository = repository;
     }
 
+    // GET /products — returns all products
     [HttpGet]
     public ActionResult<IEnumerable<ProductDto>> GetAll()
     {
@@ -24,14 +26,16 @@ public class ProductsController : ControllerBase
         return Ok(products);
     }
 
+    // GET /products/{id} — returns a single product or 404 if not found
     [HttpGet("{id}")]
     public ActionResult<ProductDto> GetById(int id)
     {
         var product = _repository.GetById(id);
-        if (product == null) return NotFound();
+        if (product == null) return NotFound($"Product with id {id} not found");
         return Ok(new ProductDto { Id = product.Id, Name = product.Name, Price = product.Price });
     }
 
+    // POST /products — creates a new product and returns 201 with the created resource
     [HttpPost]
     public ActionResult<ProductDto> Create(CreateProductDto dto)
     {
@@ -41,20 +45,22 @@ public class ProductsController : ControllerBase
         return CreatedAtAction(nameof(GetById), new { id = product.Id }, result);
     }
 
+    // PUT /products/{id} — updates an existing product or 404 if not found
     [HttpPut("{id}")]
     public ActionResult<ProductDto> Update(int id, UpdateProductDto dto)
     {
         var product = new Product { Name = dto.Name, Price = dto.Price };
         var updated = _repository.Update(id, product);
-        if (updated == null) return NotFound();
+        if (updated == null) return NotFound($"Product with id {id} not found");
         return Ok(new ProductDto { Id = updated.Id, Name = updated.Name, Price = updated.Price });
     }
 
+    // DELETE /products/{id} — deletes a product or 404 if not found
     [HttpDelete("{id}")]
     public ActionResult Delete(int id)
     {
         var deleted = _repository.Delete(id);
-        if (!deleted) return NotFound();
+        if (!deleted) return NotFound($"Product with id {id} not found");
         return NoContent();
     }
 }
