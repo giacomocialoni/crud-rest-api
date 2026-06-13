@@ -136,3 +136,5 @@ Note that as the number of entities grows, introducing a `BaseController` would 
 ## Bonus
 
 - **Automated tests** — 9 tests covering all CRUD operations on the generic repository using xUnit. Each test follows the Arrange / Act / Assert pattern and runs with `dotnet test` from the `CrudRestApi.Tests/` folder.
+
+- **Input validation** — request bodies are validated using Data Annotations (`[Required]`, `[MinLength]`, `[MaxLength]`, `[EmailAddress]`, `[Range]`). Invalid requests are automatically rejected with a `400 Bad Request` response before reaching the controller.
