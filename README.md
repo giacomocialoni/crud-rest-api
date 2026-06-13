@@ -140,3 +140,5 @@ Note that as the number of entities grows, introducing a `BaseController` would 
 - **Input validation** — request bodies are validated using Data Annotations (`[Required]`, `[MinLength]`, `[MaxLength]`, `[EmailAddress]`, `[Range]`). Invalid requests are automatically rejected with a `400 Bad Request` response before reaching the controller.
 
 - **HTTP error handling** — all endpoints return meaningful error messages alongside the appropriate status code. `404 Not Found` includes a descriptive message. `400 Bad Request` is returned automatically by `[ApiController]` when input validation fails.
+
+- **Pagination** — `GET /users` and `GET /products` support pagination via query parameters `page` and `pageSize` (e.g. `GET /users?page=2&pageSize=5`). Defaults to page 1 with 10 items per page. Returns `400 Bad Request` if parameters are out of range.

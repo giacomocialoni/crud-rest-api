@@ -17,12 +17,18 @@ public class ProductsController : ControllerBase
         _repository = repository;
     }
 
-    // GET /products — returns all products
+    // GET /products?page=1&pageSize=10 — returns a paginated list of products
     [HttpGet]
-    public ActionResult<IEnumerable<ProductDto>> GetAll()
+    public ActionResult<IEnumerable<ProductDto>> GetAll([FromQuery] int page = 1, [FromQuery] int pageSize = 10)
     {
+        if (page < 1) return BadRequest("Page must be greater than 0");
+        if (pageSize < 1 || pageSize > 100) return BadRequest("PageSize must be between 1 and 100");
+
         var products = _repository.GetAll()
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
             .Select(p => new ProductDto { Id = p.Id, Name = p.Name, Price = p.Price });
+
         return Ok(products);
     }
 

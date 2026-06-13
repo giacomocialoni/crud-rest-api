@@ -17,12 +17,18 @@ public class UsersController : ControllerBase
         _repository = repository;
     }
 
-    // GET /users — returns all users
+    // GET /users?page=1&pageSize=10 — returns a paginated list of users
     [HttpGet]
-    public ActionResult<IEnumerable<UserDto>> GetAll()
+    public ActionResult<IEnumerable<UserDto>> GetAll([FromQuery] int page = 1, [FromQuery] int pageSize = 10)
     {
+        if (page < 1) return BadRequest("Page must be greater than 0");
+        if (pageSize < 1 || pageSize > 100) return BadRequest("PageSize must be between 1 and 100");
+
         var users = _repository.GetAll()
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
             .Select(u => new UserDto { Id = u.Id, Name = u.Name, Email = u.Email });
+
         return Ok(users);
     }
 
