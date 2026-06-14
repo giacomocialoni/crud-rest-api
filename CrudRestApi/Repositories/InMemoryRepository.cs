@@ -14,7 +14,7 @@ public class InMemoryRepository<T> : IRepository<T> where T : class
     // Counter that auto-increments to generate unique Ids
     private int _nextId = 1;
 
-    // We receive the Id functions from outside because the repository
+    // We receive the Id functions from outside because T has no guaranteed Id property
     public InMemoryRepository(Func<T, int> getId, Action<T, int> setId)
     {
         _getId = getId;
