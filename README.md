@@ -24,6 +24,15 @@ Open Swagger at: `http://localhost:5153/swagger/index.html`
 
 ---
 
+**To run the tests:**
+
+```bash
+cd CrudRestApi.Tests
+dotnet test
+```
+
+---
+
 ## Project Structure
 
 ```
